@@ -4,7 +4,10 @@ const validateUser = require("../middlewares/validateUser");
 
 const userRouter = Router();
 
-userRouter.get("/", userController.getAllUsers);
-userRouter.post("/", validateUser, userController.createUser);
+userRouter.get("/", userController.getUsers);
+userRouter.get("/byName", userController.getUserByName)
+userRouter.get("/:id", userController.getUserById)
+userRouter.put("/addVehicle", userController.addVehicleToUser)
+userRouter.post("/", userController.createUser);
 
 module.exports = userRouter;
