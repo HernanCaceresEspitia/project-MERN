@@ -1,41 +1,39 @@
 const usersService = require("../services/userService");
+const catchAsync = require("../Utils/catchAsync");
+
+const getUsers = async (req, res) => {
+  const users = await usersService.getUsers();
+  res.status(200).json(users);
+};
+
+const getUserById = async (req, res) => {
+  const { id } = req.params;
+  const user = await usersService.getUserById(id);
+  res.status(200).json(user);
+};
+
+const getUserByName = async (req, res) => {
+  const { name } = req.body;
+  const user = await usersService.findUserByName(name);
+  res.status(200).json(user);
+};
+
+const createUser = async (req, res) => {
+  const { name, email, password } = req.body;
+  const newUser = await usersService.createUser({ name, email, password });
+  res.status(201).json(newUser);
+};
+
+const addOrder = async (req, res) => {
+  const { userId, dateOfRequest, dateOfDelivery, customer, description } = req.body;
+  await usersService.addOrder({ userId, dateOfRequest, dateOfDelivery, customer, description });
+  res.status(200).json({ message: "Orden creada" });
+};
 
 module.exports = {
-  getUsers: async (req, res) => {
-    try {
-      const users = await usersService.getUsers();
-      res.status(200).json(users);
-    } catch (error) {
-      error = { message: error };
-    }
-  },
-
-  getUserById: async (req, res) => {
-    const { id } = req.params;
-
-    try {
-      const user = await usersService.getUserById(id);
-      res.status(200).json(user);
-    } catch (error) {
-      res.status(500).json({ message: error.message });
-    }
-  },
-
-  getUserByName: async (req, res) => {
-    const { name } = req.body;
-    const user = await usersService.findUserByName(name);
-    res.status(200).json(user);
-  },
-
-  createUser: async (req, res) => {
-    const { name, email, age } = req.body;
-    const newUser = await usersService.createUser({ name, email, age });
-    res.status(201).json(newUser);
-  },
-
-  addVehicleToUser: async (req, res) => {
-    const { userId, vehicleId } = req.body;
-    usersService.addVehicleTest({ userId, vehicleId });
-    res.status(200).json({ message: "Todo correcto" });
-  },
+  getUsers: catchAsync(getUsers),
+  getUserById: catchAsync(getUserById),
+  getUserByName: catchAsync(getUserByName),
+  createUser: catchAsync(createUser),
+  addOrder: catchAsync(addOrder)
 };

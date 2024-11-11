@@ -1,5 +1,5 @@
 const User = require("../models/User");
-const { findById } = require("../models/Vehicle");
+const { createOrder } = require("./orderService");
 
 module.exports = {
   getUsers: async () => {
@@ -8,7 +8,7 @@ module.exports = {
   },
 
   getUserById: async (id) => {
-    const user = await User.findById(id);
+    const user = await User.findById(id).populate("orders");
     return user;
   },
 
@@ -22,10 +22,22 @@ module.exports = {
     return newUser;
   },
 
-  addVehicleTest: async (data) => {
-    const { userId, vehicleId } = data;
+  addOrder: async (data) => {
+    const {
+      userId,
+      dateOfRequest,
+      dateOfDelivery,
+      customer,
+      description,
+    } = data;
     const user = await User.findById(userId);
-    user.vehicle = vehicleId;
+    const order = await createOrder({
+      dateOfRequest,
+      dateOfDelivery,
+      customer,
+      description,
+    });
+    user.orders.push(order);
     await user.save();
     return user;
   },
