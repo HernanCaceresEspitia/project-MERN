@@ -26,8 +26,8 @@ const createUser = async (req, res) => {
 
 const addOrder = async (req, res) => {
   const { userId, dateOfRequest, dateOfDelivery, customer, description } = req.body;
-  await usersService.addOrder({ userId, dateOfRequest, dateOfDelivery, customer, description });
-  res.status(200).json({ message: "Orden creada" });
+  const newOrder = await usersService.addOrder({ userId, dateOfRequest, dateOfDelivery, customer, description });
+  res.status(200).json(newOrder);
 };
 
 module.exports = {

@@ -14,6 +14,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  isLogged: {
+    type: Boolean,
+    default: false,
+  },
   orders: [
     {
       type: mongoose.Schema.Types.ObjectId,
