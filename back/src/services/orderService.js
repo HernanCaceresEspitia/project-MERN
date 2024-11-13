@@ -36,9 +36,6 @@ module.exports = {
 
   orderAcomplished: async (orderId) => {
     const order = await Order.findById(orderId);
-    if(!order){
-      return "Orden inexistente"
-    }
     order.status = false; //Orden completada
     await order.save();
     return order;

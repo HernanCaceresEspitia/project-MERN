@@ -1,5 +1,7 @@
 node_modules
 *.txt
-*.md
+.env
+tasks.md
+MongoDB User-Password.md
 
 

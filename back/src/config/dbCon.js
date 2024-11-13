@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
+require("dotenv").config();
 
+const dbHost = process.env.DB_HOST;
 const dbCon = async () => {
-  await mongoose.connect(
-    "mongodb+srv://projectmgray:njk93Cg1zFsXADNw@proyecto-mern.dqdy7.mongodb.net/orderManagement"
-  );
+  await mongoose.connect(dbHost);
 };
 
 module.exports = dbCon;
